@@ -59,6 +59,7 @@ router.get("/more/:id",function(req,res){
                     allProjects.splice(i,1);
                     i--;
                 }
+            }
             var timeleft = [];
             var createdAt = []
             allProjects.forEach(function(project){
