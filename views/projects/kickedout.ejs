@@ -1,0 +1,58 @@
+<% include ../partials/header %>
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome to Afeka Kick Start</h1>
+            <p>View our Hand picked projects from all over the world</p>
+            <p>
+                    <a class="btn btn-primary btn-large" href="projects/new">add new project</a>
+            </p>
+        </div>
+    </header>
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 align="center">Explore <span class="color-for-num-projects">
+                <%=Number(projects.length).toLocaleString()%></span> Kicked Out Projects</h3>
+        </div>
+    </div>
+    <br/>
+    <div class="row text-center" style="display:flex;flex-wrap:wrap;">
+        <% projects.forEach(function(project){%>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail info-inside-thumbnail">
+                    <div>
+                    <img class="img-inside-thumb-small" src = "<%= project.images[0] %>">
+                    </div>
+                    <div class="caption aleft">
+                       <div class="title-inside-thumb">
+                       <h5><%= project.name %></h5>
+                       </div>
+                       Created by<em> <%= project.author.username %></em>
+                       <p class="pull-right"> at <%= moment(project.createdAt).format("MMM Do YY") %></p>
+                       <p class="description-inside-thumb"><%= project.description %></p>
+                       <div class="raised-bar">
+                           <span class="progress" style="width:<%= 100*project.funded/project.pledge %>%;">
+                               <%= (100*project.funded/project.pledge).toFixed(1) %>%</span>
+                       </div>
+                       <div>
+                       <span>funded</span>
+                       <span style="margin-left:30px;">pledge</span>
+                       <span class="pull-right">ends</span>
+                       </div>
+                       <div class="tb">
+                       <strong><%= (project.funded*100/project.pledge).toFixed(1) %>%</strong>
+                       <strong > <%= project.pledge.toLocaleString() %> $</strong>
+                       <em > <%= moment(project.endsAt).fromNow() %></em>
+                       </div>
+                       
+                   </div>
+                   
+                   <p>
+                       <br/><a href="/projects/<%= project._id %>" class="btn btn-primary">More info</a>
+                   </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+<% include ../partials/footer  %>

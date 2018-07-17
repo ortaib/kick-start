@@ -1,0 +1,164 @@
+function fromNow(temp){
+            var seconds = Math.floor((temp/1000)%60);
+            var minutes = Math.floor(((temp)/1000/60)%60);
+            var hours = Math.floor(((temp)/1000/60/60)%24);
+            var days = Math.floor(((temp)/1000/60/60/24)%30);
+            var months = Math.floor(((temp)/1000/60/60/24/30)%12);
+            var years = Math.floor(((temp)/1000/60/60/24/365));
+            if(years>0){
+                if(years==1)
+                return "a year ago";
+                else{
+                    return + years + " years ago";
+                }
+            }
+            else if(months>0){
+                if(months==1)
+                    return "a month ago";
+                else{
+                    return months + " monthes ago";
+                }
+            }
+            else if(days>0){
+                if(days==1)
+                    return "a day ago";
+                else{
+                    return days + " days ago";
+                }
+            }
+            else if(hours>0){
+                if(hours==1)
+                    return "an hour ago";
+                else{
+                    return hours + " hours ago";
+                }
+            }
+            else if(minutes>0){
+                if(minutes==1)
+                    return "a minute ago";
+                else{
+                    return minutes + " minutes ago";
+                }
+            }
+            else if(seconds>0){
+                if(seconds<20)
+                    return "a few seconds ago";
+                else{
+                    return seconds + " seconds ago";
+                }
+            }
+        }
+        
+        
+        <script type="text/javascript">
+    var reqnum=1;
+    var comment = document.querySelector("#tryajax");
+    var loadMoreBtn = document.querySelector("#loadMore");
+    var btn = document.querySelector("#btnajax");
+    var pledgeBtn = document.querySelector("#pledgeBtn");
+    var xhr = new XMLHttpRequest(); 
+    //var fd = new FormData();
+    btn.addEventListener("click",function(){
+        if(!document.querySelector("#loginBtn")){
+            var url = "https://efe4a8ca02874b748b341af5a78ae0e0.vfs.cloud9.us-east-2.amazonaws.com/projects/<%=project._id%>/comments";
+            xhr.open("POST",url, true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = function() {//Call a function when the state changes.
+                if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        if(data.status == 200){
+                        // Request finished. Do processing here.
+                        //var data = JSON.parse(xhr.responseText);
+                            var commentswell = document.querySelector("#commentswell");
+                            var commentDiv = document.createElement("div");
+                            var backerswell = document.querySelector("#backerswell");
+                            commentDiv.classList.add("row");
+                            commentDiv.innerHTML = '<div class="col-md-12"><strong>'+data.comment.author.username+'</strong>'
+                            +'<span class="pull-right">a few seconds ago </span> <p>'+data.comment.text+'</p>'
+                            +'<a class="btn btn-xs btn-warning" href="/projects/'+data.projectid+'/comments/'+data.comment._id+'/edit">Edit</a>'
+                            +'<form id="delete-form" action="/projects/'+data.projectid+'/comments/'+data.comment._id+'?_method=DELETE" method="POST">'
+                            +'<button  class="btn btn-xs btn-danger">Delete</button></form></div>';
+                            commentswell.insertBefore(commentDiv, commentswell.childNodes[2]);
+                            commentswell.appendChild(document.createElement("hr"));
+                        }
+                        else{
+                            alert("something went wront");
+                        }
+                    }
+                }
+                xhr.send(JSON.stringify({comment:comment.value}));
+                comment.value="";
+            }
+            else{
+                alert("You need to be logged in to comment");
+            }
+    });
+    loadMoreBtn.addEventListener("click",function(){
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var data = JSON.parse(xhr.responseText);
+                if(data.comments.length>0){
+                    var commentswell = document.querySelector("#commentswell");
+                    for(var i=0;i<data.comments.length;i++){
+                        var commentDiv = document.createElement("div");
+                        commentDiv.classList.add("row");
+                        if(data.ownership && data.ownership[i]){
+                            commentDiv.innerHTML = '<div class="col-md-12"><strong>'+data.comments[i].author.username+'</strong>'
+                            +'<span class="pull-right">'+data.timeleft[i]+'</span> <p>'+data.comments[i].text+'</p>'
+                            +'<a class="btn btn-xs btn-warning" href="/projects/'+data.projectid+'/comments/'+data.comments[i]._id+'/edit">Edit</a>'
+                            +'<form id="delete-form" action="/projects/'+data.projectid+'/comments/'+data.comments[i]._id+'?_method=DELETE" method="POST">'
+                            +'<button  class="btn btn-xs btn-danger">Delete</button></form></div>';
+                        }else{
+                            commentDiv.innerHTML = '<div class="col-md-12"><strong>'+data.comments[i].author.username+'</strong>'
+                            +'<span class="pull-right">'+data.timeleft[i]+'</span> <p>'+data.comments[i].text+'</p></div>';
+                        }
+                        
+                        commentswell.appendChild(commentDiv);
+                        commentswell.appendChild(document.createElement("hr"),);
+                    }
+                }
+                 else{
+                        var container = document.querySelector("#ctnr");
+                        container.removeChild(document.querySelector("#loadmorediv"));
+                    }
+                    
+                
+            }
+        }
+        var temp = "https://efe4a8ca02874b748b341af5a78ae0e0.vfs.cloud9.us-east-2.amazonaws.com/projects/<%=project._id%>/comments/more";
+        var gurl = temp+"/"+reqnum;
+        reqnum++;
+        xhr.open("GET",gurl);
+        xhr.send();
+    });
+    pledgeBtn.addEventListener("click",function(){
+        if(!document.querySelector("#loginBtn")){
+            var pledgeAmount = document.querySelector("#pledgeAmount");
+            if(pledgeAmount.value>0){
+                var url = "https://efe4a8ca02874b748b341af5a78ae0e0.vfs.cloud9.us-east-2.amazonaws.com/projects/<%=project._id%>/pledge";
+                xhr.open("POST",url, true);
+                xhr.setRequestHeader("Content-type", "application/json");
+                xhr.onreadystatechange = function() {//Call a function when the state changes.
+                    if(this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                            var data = JSON.parse(xhr.responseText);
+                            console.log(data);
+                            if(data.status == 200){
+                                var pledgediv = document.createElement("div");
+                                pledgediv.classList.add("row");
+                                pledgediv.innerHTML = '<div class="col-md-12"><em>a few seconds ago></em>'
+                                +'<span class="author-name">'+data.pledge.author.username+'</span>'
+                                +'<span>has donated &nbsp</span><strong class="amount">'+(data.pledge.amount).toLocaleString() +' $</strong><hr>';
+                                backerswell.insertBefore(pledgediv,backerswell.childNodes[0]);
+                                pledgeAmount.value="";
+                            }
+                    }
+                }
+                 xhr.send(JSON.stringify({pledge:pledgeAmount.value}));
+                 
+            }
+        }else{
+            alert("you need to login inorder to pledge");
+        }
+    });
+    
+</script>

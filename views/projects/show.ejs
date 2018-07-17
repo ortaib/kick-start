@@ -1,0 +1,150 @@
+<% include ../partials/header %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="project-info-box">
+                <div class="title">
+                    <p><%= project.name %></p>
+                </div>
+                <div id="projectFunded" class="funded">
+                    <%= project.funded.toLocaleString() %>
+                    <strong>$</strong>
+                </div>
+                <div class="pledge">out of <%=project.pledge.toLocaleString()%> <span style="font-size:13px;">$</span></div>
+                <div class="raised-bar"><span id="raisedBar" class="progress" style="width:<%= 100*project.funded/project.pledge %>%;">
+                    <%= (100*project.funded/project.pledge).toFixed(1) %>% </span></div>
+                <div class="info">
+                    <div class="left">
+                        <div id="numOfBackers"><%= project.pledges.length %></div>
+                        <span>backers</span>
+                        </div>
+                    <div class="right">
+                        <div>
+                            <% if(Math.floor((project.endsAt-Date.now())/1000/60/60/24)>0){ %>
+                                <%= Math.floor((project.endsAt-Date.now())/1000/60/60/24) %>
+                                <span>days left</span>
+                            <% }else if(Math.floor((project.endsAt-Date.now())/1000/60/60)>0){ %>
+                                <%= Math.floor((project.endsAt-Date.now())/1000/60/60) %>
+                                <span>hours left</span>
+                            <% }else{ %>
+                                 0
+                                <span>hours left</span>
+                            <% } %>
+                            
+                        </div>        
+                        
+                        </div>
+                </div>
+            </div>
+            <br/>
+            <%if(project.isAlive){%>
+                <div class="pledge-box">
+                    <div class="title">Make A Pledge</div>
+                        <div class="form-group">
+                            <div class="hold">
+                                <input id="pledgeAmount" class="form-control half-width-pledge-left" 
+                                onkeydown="return event.keyCode !== 69" type="number" name="amount" placeholder="amount"
+                                min="1" max="100000" title="pledge amount" required><strong>$</strong>
+                                <button id="pledgeBtn" class="btn btn-md btn-primary btn-half-width">Pledge</button>
+                            </div>
+                        </div>
+                </div>
+                <% } %>
+            <br/>
+            <div class="backers">
+                <div class="backers-title">Backers</div>
+                <div id="backerswell" class="well no-radius">
+                    <%  project.pledges.forEach(function(pledge){ %>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <em><%= moment(pledge.createdAt).fromNow()%></em>
+                                <span class="author-name"><%= pledge.author.username %></span>
+                                <span>has donated &nbsp</span><strong class="amount"><%=pledge.amount.toLocaleString()%> $</strong>
+                            </div>
+                        </div><hr>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+        <div id="ctnr" class="col-md-8">
+            <div class="thumbnail">
+                <%if(project.video){%>
+                    <div>
+                         <iframe height="500px" src="https://www.youtube.com/embed/<%=project.video%>"></iframe>
+                    </div>
+                <% }else{ %>
+                    <div>
+                      <iframe height="500px" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                    </div>
+                <% } %>
+                <div class="caption-full">
+                     <% if(currentUser && project.author.id.equals(currentUser._id) || (currentUser && currentUser.isAdmin)){ %>
+                         <a class="btn btn-warning" href="/projects/<%=project._id%>/edit">Edit</a>
+                         <form id="delete-form" action="/projects/<%=project._id%>?_method=DELETE" method="POST">
+                             <button class="btn btn-danger">Delete</button>
+                         </form>
+                     <% } %>                     <h3><%= project.name %></h3>
+                     <p><em>Created by <%= project.author.username %></em></p>
+
+                     <p> <%= project.description %> </p>
+                     <div>
+                     <span id="about-span">About</span>
+                     <p> <%= project.about %> </p>
+                     </div>
+                     <%console.log(project.tryNow);%>
+                     <%if(project.tryNow){ %>
+                     <div>
+                         <a href="<%=project.tryNow %>">Try now</a>
+                     </div>
+                     <% } %>
+                     <div>
+                        <img class="img-inside-thumb-large" src="<%= project.images[0] %>">
+
+                     </div>
+                     <div>
+                         
+                        <img class="img-inside-thumb-large" src="<%= project.images[1] %>">
+                    </div>
+                    <div>
+                        <img class="img-inside-thumb-large" src="<%= project.images[2] %>">
+                    </div>
+
+                </div>
+            </div>
+            <div id="commentswell" class="well">
+                <div align="center">
+                    <button class="btn btn-success" id="btnajax" href="/projects/<%= project._id %>/comments/new" >Add New Comment</button>
+                    <div style="padding:10px;">
+                        <textarea id="tryajax" class="form-control" rows="5" name="comment"></textarea>
+                    </div>
+
+                </div>
+                <hr>
+                <% project.comments.forEach(function(comment){ %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong> <%= comment.author.username %> </strong>
+                        <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span> 
+                         <p> <%= comment.text %> </p>
+                         <% if(currentUser && comment.author.id.equals(currentUser._id) || (currentUser && currentUser.isAdmin)){ %>
+                         <a class="btn btn-xs btn-warning"
+                          href="/projects/<%= project._id %>/comments/<%=comment._id %>/edit">Edit</a>
+                         <form id="delete-form" action="/projects/<%= project._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                             <button  class="btn btn-xs btn-danger">Delete</button>
+                         </form>
+                         <% } %>
+                    </div>
+                </div><hr>
+                <% });%>
+            </div>
+            <div id="loadmorediv" align="center"><button id="loadMore" class="btn btn-info">Load More</button></div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    loadMoreComments();
+    postComment();
+    postPledge();
+</script>
+<% include ../partials/footer %>

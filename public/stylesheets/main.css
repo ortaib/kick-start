@@ -1,0 +1,232 @@
+
+.thumbnail img{
+    width:100%;
+}
+.thumbnail{
+    padding:0;
+}
+.thumbnail .caption-full{
+    padding:9px;
+}
+#delete-form{
+    display:inline;
+}
+.half-width-form-control-right {
+           display: inline-block;
+           width: calc(50% - 5px);
+           float: left;
+           margin-left:5px;
+           margin-bottom: 15px;
+ }
+ .half-width-form-control-left {
+           display: inline-block;
+           width: calc(50% - 5px);
+           float: left;
+           margin-right:5px;
+           margin-bottom: 15px;
+ }
+ textarea{
+     resize:none;
+ }
+ .aleft{
+    text-align :left;
+ }
+ .img-inside-thumb-small{
+        height: 250px;
+}
+.img-inside-thumb-large{
+        padding-bottom:10px;
+        max-height: 600px;
+        max-width: 100%;
+}
+.description-inside-thumb{
+  line-height:1.2em;
+  height:3.6em;
+  width:100%;
+  overflow:hidden;
+}
+.title-inside-thumb{
+    line-height:1.4em;
+    height:3em;
+    width:100%;
+    overflow:hidden;
+}
+.project-info-box{
+  border: 1px solid #b2b2b2;
+  background-color: #f5f5f5;
+  color: #4c4c4c;
+  text-align: center;
+  position: relative;
+}
+.project-info-box .title{
+    
+    background-color:#8cc349;
+    font-size: 30px;
+    color: #fff;
+    font-weight: bold;
+}
+.project-info-box .funded{
+    font-size: 55px;
+    font-weight: bold;
+    margin-top: -20px;
+}
+.project-info-box .funded strong{
+    font-size:25px;
+}
+.project-info-box .pledge{
+    font-size:20px;
+    margin-top:-10px;
+}
+.project-info-box .raised-bar{
+    border:1px solid #8cc349;
+    direction: ltr;
+    border-radius:10px;
+    background-color:#fff;
+    height:20px;
+    width:80%;
+    margin:20px auto;
+    overflow:hidden;
+}
+
+.info-inside-thumbnail .raised-bar{
+    border:1px solid #2e6da4;
+    direction: ltr;
+    border-radius:10px;
+    background-color:#fff;
+    height:20px;
+    width:90%;
+    margin:20px auto;
+    overflow:hidden;
+}
+h5 a{
+    text-decoration: none !important;
+}
+.info-inside-thumbnail .raised-bar .progress{
+    display: block;
+    color:#fff;
+    text-align:center;
+    background-color: #337ab7;
+    border-radius:0px;
+    max-width:100%;
+}
+.project-info-box .raised-bar .progress{
+    display: block;
+    color:#fff;
+    text-align:center;
+    background-color: #8cc349;
+    border-radius:0px;
+    max-width:100%;
+}
+.project-info-box .info{
+    border-top:1px solid #b2b2b2;
+    width:100%;
+    height:70px;
+    font-size:30px;
+    font-weight: bold;
+
+
+}
+.project-info-box .info .left{
+    width:49%;
+    float:left;
+    height:100%;
+}
+.project-info-box .info .right{
+    width:50%;
+    height:100%;
+    float: right;
+    border-left:1px solid #b2b2b2;
+}
+.project-info-box .info span{
+    font-size:15px;
+    display: block;
+    font-weight: normal;
+}
+.backers{
+    padding-bottom:30px;
+}
+.backers-title{
+    width:100%;
+    background-color:#cce5ff;
+    color:#fff;
+    font-size:30px;
+    display:block;
+    text-align:center;
+
+}
+.no-radius{
+    border-radius:0px;
+    padding :10px 10px 0 10px;
+}
+.pledge-box{
+    border: 1px solid #b2b2b2;
+    background-color: #f5f5f5;
+    color: #4c4c4c;
+    text-align: center;
+    position: relative;
+}
+.pledge-box .title{
+    background-color:#8FBC8F;
+    color:#fff;
+    font-size:30px;
+}
+.form-group .hold{
+    margin-top:15px;
+}
+.btn-half-width{
+    width:40%;
+}
+iframe{
+    width:100%;
+}
+.half-width-pledge-left{
+           display: inline-block;
+           width: calc(30% - 5px);
+           float: left;
+           margin-right:5px;
+           margin-bottom: 15px;
+}
+.hold strong{
+    float:left;
+    font-size:20px;
+    margin-top:5px;
+    
+}
+.tb strong{
+    display:inline-block;
+    width : 33%;
+    text-align:left;
+    float:left;
+}
+.tb em{
+    width : 34%;
+    text-align:right;
+    float:right
+}
+.backers .author-name{
+    width:18%;
+    float:left;
+    color:#8FBC8F;
+    font-weight: bold;
+    font-style: italic;
+}
+.backers em{
+    float:right;
+}
+.backers .amount{
+    color:#8cc349;
+}
+.resize{
+    resize:both;
+}
+#about-span{
+    font-size:20px;
+}
+hr{
+    margin:5px;
+}
+.color-for-num-projects{
+    color:#FFAF00;
+}
+
+
